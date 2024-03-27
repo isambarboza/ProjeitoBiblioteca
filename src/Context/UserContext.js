@@ -26,15 +26,15 @@ function UserProvider({children})
         }
         
     }
-    useEffect( () => {
+    useEffect(() => {
         infoUsuario();
-      }, [] );
-    
+    }, [] );
+  
     return(
-        <UserContext.Provider value={ { usuario: usuario, logado: logado, Login, infoUsuario }}>
+        <UserContext.Provider value={ {usuario: usuario, logado: logado, Login, infoUsuario } }>
             {children}
         </UserContext.Provider>
     )
-}
+ }
 
-export default UserProvider;
+ export default UserProvider;

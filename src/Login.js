@@ -4,6 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { UserContext } from './Context/UserContext';
 
 
+
 export default function Login() {
 
   const[ email, setEmail ] = useState("");
@@ -14,7 +15,6 @@ export default function Login() {
 
   function realizaLogin()
   {
-
     Login( email, senha );
   }
 
