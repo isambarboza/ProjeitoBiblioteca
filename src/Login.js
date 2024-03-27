@@ -1,49 +1,43 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Keyboard, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native'
+import { useContext, useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { UserContext } from './Context/UserContext';
 
-const Login = () => {
-  const [email, setEmail] = useState('');
-  const [senha, setSenha] = useState('');
-  const [login, setLogin] = useState(true); // Estado para alternar entre login e cadastro
 
-  const handleLogin = () => {
-    // Lógica para autenticar o usuário
-    console.log('Login');
-  };
+export default function Login() {
 
-  const handleCadastro = () => {
-    // Lógica para cadastrar o usuário
-    console.log('Cadastro');
-  };
+  const[ email, setEmail ] = useState("");
+  const[ senha, setSenha ] = useState("");
+  const[ erro, setErro ] = useState( false );
+
+  const {Login} = useContext( UserContext );
+
+  function realizaLogin()
+  {
+
+    Login( email, senha );
+  }
 
   return (
     <View style={css.container}>
-      <Text style={css.titulo}>{login ? 'Login' : 'Cadastro'}</Text>
       <TextInput
         style={css.input}
         placeholder="E-mail"
+        onChangeText={(digitado) => setEmail(digitado)}
         value={email}
-        onChangeText={setEmail}
       />
       <TextInput
         style={css.input}
         placeholder="Senha"
+        onChangeText={(digitado) => setSenha(digitado)}
         value={senha}
-        onChangeText={setSenha}
-        secureTextEntry
       />
-      {login ? (
-        <TouchableOpacity style={css.btn} onPress={handleLogin}>
+      
+        <TouchableOpacity style={css.btn} onPress={realizaLogin}>
             <Text style={css.btnText}>LOGIN</Text>
         </TouchableOpacity>
-      ) : (
-        <TouchableOpacity style={css.btn} onPress={handleCadastro}>
-            <Text style={css.btnText}>CADASTRAR</Text>
-        </TouchableOpacity>
-      )}
-      <Text style={css.info} onPress={() => setLogin(!login)}>
-        {login ? 'Ainda não tem uma conta? Cadastre-se aqui.' : 'Já tem uma conta? Faça login aqui.'}
-      </Text>
+     
+        
     </View>
   );
 };
@@ -61,7 +55,7 @@ const css = StyleSheet.create({
     },
     input: {
         width: "90%",
-        backgroundColor: "#EBECF0",
+        backgroundColor: "#E4E4E4",
         height: 60,
         borderRadius: 3,
         padding: 15,
@@ -87,5 +81,3 @@ const css = StyleSheet.create({
         fontSize: 20,
     }
 });
-
-export default Login;

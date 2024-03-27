@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { View, Text, FlatList, TouchableOpacity, Modal, Button, StyleSheet } from 'react-native';
+import { UserContext } from './Context/UserContext';
 
 const Livros = () => {
   const [books, setBooks] = useState([
@@ -10,6 +11,8 @@ const Livros = () => {
   ]);
   const [selectedBook, setSelectedBook] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
+
+  const {usuario} = useContext( UserContext );
 
   const handleBookPress = (book) => {
     setSelectedBook(book);
@@ -25,7 +28,7 @@ const Livros = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.heading}>Biblioteca de Livros</Text>
-
+      <Text>{usuario}</Text>
       <FlatList
         data={books}
         renderItem={renderItem}
