@@ -12,9 +12,9 @@ function UserProvider({children})
 
     async function Login( email, senha )
     {
-        if( email == "gabi.martins@gmail.com" && senha == "123" )
+        if( email == "user.aplicativo@gmail.com" && senha == "123" )
         {
-            await AsyncStorage.setItem( "usuario" , "Gabriela" );
+            await AsyncStorage.setItem( "usuario" , "User" );
             setLogado( true );
         }
     }
