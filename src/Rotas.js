@@ -75,6 +75,7 @@ export default function Rotas() {
                     tabBarIcon: ({ color, size }) => (
                         <MaterialCommunityIcons name="lightbulb-variant-outline" color={'white'} size={size} />
                     ),
+                    
                 }} />
                 <Tab.Screen name="Agenda" component={Agenda} options={{
                     tabBarIcon: ({ color, size }) => (
