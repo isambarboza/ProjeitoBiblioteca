@@ -1,4 +1,4 @@
-import { TextInput, StyleSheet, TouchableOpacity, FlatList, Platform, Image, alert, Date, Keyboard  } from "react-native";
+import { TextInput, StyleSheet, TouchableOpacity, FlatList, Platform, Image, Keyboard  } from "react-native";
 import { Text, View } from "react-native";
 import { useState, useEffect, useContext } from "react";
 import Evento from "./Evento";
@@ -8,7 +8,7 @@ import { UserContext } from "./Context/UserContext";
 
 
 
-export default function Agenda( {navigation} )
+export default function Agenda( )
 {
 
     const[ agenda, setAgenda ] = useState();
@@ -16,15 +16,14 @@ export default function Agenda( {navigation} )
     const[ final, setFinal ] = useState();
     const[ dados, setDados] = useState([]);
 
-   
+   const {usuario} = useContext( UserContext );
     
     async function getPermissions()
-    
-    {
-    
+    {        
         const {status} = await Calendar.requestCalendarPermissionsAsync();
-        if (status === "granted"){
-        const calendars = await Calendar.getCalendarsAsync(Calendar.EntityTypes.EVENT);
+        if (status === "granted")
+        {
+            const calendars = await Calendar.getCalendarsAsync(Calendar.EntityTypes.EVENT);
         }
     }
 
@@ -34,6 +33,7 @@ export default function Agenda( {navigation} )
 
     async function Salvar()
     {
+        
         if( agenda != "" && inicio != "" && final != "" ) {
             Keyboard.dismiss();
             const evento = {
@@ -44,14 +44,14 @@ export default function Agenda( {navigation} )
             };
             const novoEvento = [ ...dados , evento ];
             setDados( novoEvento );
-            setAgenda( "" );
-            setInicio( "" );
-            setFinal( "" );
+            
+            
 
-            const defaultCalendarSource=
+            const defaultCalendarSource =
             Platform.OS === 'ios'
             ? await Calendar.getDefaultCalendarAsync()
             : {isLocalAccount: true, name: 'Expo Calendar'};
+            
 
             const newCalendarID = await Calendar.createCalendarAsync({
                 title: 'Expo Calendar',
@@ -64,6 +64,8 @@ export default function Agenda( {navigation} )
                 accessLevel: Calendar.CalendarAccessLevel.OWNER,
               });
 
+              
+
               let inicioDataHora = inicio.split(" ");
               let inicioData = inicioDataHora[0].split("-");
               let inicioHora = inicioDataHora[1].split(".");
@@ -71,31 +73,37 @@ export default function Agenda( {navigation} )
               let finalDataHora = final.split(" ");
               let finalData = finalDataHora[0].split("-");
               let finalHora = finalDataHora[1].split(".");
-              
 
-              const newEvent ={
+              
+              const newEvent = {
                 title: agenda,
                 startDate: new Date(inicioData[2], inicioData[1] -1, inicioData[0], inicioHora[0], inicioHora[1]),
                 endDate: new Date(finalData[2],finalData[1] -1 , finalData[0], finalHora[0], finalHora[1]),
-                location: 'Sesi',
-                notes: 'Meteoro da Paixão'
+                location: 'Biblioteca',
+                notes: 'Livros para ler'
               };
 
               try{
                 await Calendar.createEventAsync(newCalendarID, newEvent);
                 alert('Evento criado com sucesso!!');
+                
               } catch(error) {
-                alert('Erro ao criar evento!!')
-              
+                alert('Erro ao criar evento!!')              
               }
+
+            setAgenda( "" );
+            setInicio( "" );
+            setFinal( "" );
+            
         }
+        
         
     }
 
 
     return(
         <View>
-            
+             <Text> Bem Vindo: {usuario} </Text>
           <Image source={require("../assets/livro.png" )}style={css.imagem}></Image>
             <Text style={css.btnText}>Agende agora o seu livro!!</Text>
             <View>
@@ -131,6 +139,7 @@ export default function Agenda( {navigation} )
                 renderItem={ ({item}) => <Evento agenda={item.nome} inicio={item.inicio} final={item.final} /> }
                 keyExtractor={ item => item.id }
             />
+           
             
             </View>
         </View>

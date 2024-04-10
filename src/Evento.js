@@ -4,7 +4,7 @@ export default function Evento({agenda, inicio, final} ) {
     return(
         <View style={css.container}>
             <Text style={css.agenda}>{agenda}</Text>
-            <Text style={css.datas}>{inicio}-{final}</Text>
+            <Text style={css.datas}>{inicio} - {final}</Text>
         </View>
     )
 }
