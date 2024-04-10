@@ -13,8 +13,6 @@ export default function Home() {
   const {usuario} = useContext( UserContext );
 
   return (
-//const{usuario} = useContext{ UseuContext }
-//text>bem vindo {usuario}>
     <View style={css.container}>
       
       <Image source={ImagemBibl} style={{ width: 350, height: 200 }} />

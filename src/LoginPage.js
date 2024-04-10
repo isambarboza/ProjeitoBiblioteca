@@ -1,4 +1,9 @@
 import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native'
+import { useContext, useEffect, useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { UserContext } from './Context/UserContext';
+import * as Network from 'expo-network';
 import { useContext, useState } from 'react';
 import { UserContext } from './Context/UserContext';
 
@@ -7,8 +12,27 @@ import { UserContext } from './Context/UserContext';
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
-
   const {setLogin, setCadastro, Login } = useContext( UserContext );
+  const [erro, setErro] = useState(false);
+  const [wifi, setWifi] = useState(false);
+
+
+
+  async function getNetworkStatus() {
+    const status = await Network.getNetworkStateAsync();
+
+    if (status.type == "WIFI") {
+      setWifi(true);
+    }
+  }
+
+  useEffect(() => {
+    getNetworkStatus();
+  }, [])
+
+  useEffect(() => {
+    getNetworkStatus();
+  }, [wifi])
 
   function realizaLogin() {
     Login(email, senha);
@@ -16,29 +40,28 @@ export default function LoginPage() {
 
 
   return (
-    <View style={css.container}>
-      
-      <TextInput
-        style={css.input}
-        placeholder="E-mail"
-        onChangeText={(digitado) => setEmail(digitado)}
-        value={email}
-      />
-      <TextInput
-        style={css.input}
-        placeholder="Senha"
-        onChangeText={(digitado) => setSenha(digitado)}
-        value={senha}
-      />
-      <TouchableOpacity style={css.btn} onPress={realizaLogin}>
-        <Text style={css.btnText}>LOGIN</Text>
-      </TouchableOpacity>
-      <Text style={css.texto}
-        onPress={() => {
-        setCadastro(true);
-        setLogin(true);
-      }}>Ainda não tem conta? Cadastra-se</Text>
-    </View>    
+    <View style={css.container}>  
+      {wifi ?
+        <>
+          <TextInput
+            style={css.input}
+            placeholder="E-mail"
+            onChangeText={(digitado) => setEmail(digitado)}
+            value={email}
+          />
+          <TextInput
+            style={css.input}
+            placeholder="Senha"
+            onChangeText={(digitado) => setSenha(digitado)}
+            value={senha}
+          />
+          <TouchableOpacity style={css.btn} onPress={realizaLogin}>
+            <Text style={css.btnText}>LOGIN</Text>
+          </TouchableOpacity>
+        </>
+        : <Text>O Wi-Fi do seu celular não está funcionando no momento, não é? Quando puder, tente se reconectar para que você possa aproveitar o nosso aplicativo!</Text>
+      }
+    </View>
   );
 };
 
