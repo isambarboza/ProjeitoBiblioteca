@@ -7,7 +7,6 @@ import { Image } from 'react-native';
 const ImagemBibl = require('../assets/biblioteca.jpg');
 const logo = require('../assets/icon.png');
 
-
 export default function Home() {
 
   const {usuario} = useContext( UserContext );

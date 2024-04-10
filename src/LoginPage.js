@@ -1,19 +1,14 @@
 import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native'
-import { useContext, useEffect, useState } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useContext, useState, useEffect } from 'react';
 import { UserContext } from './Context/UserContext';
 import * as Network from 'expo-network';
-import { useContext, useState } from 'react';
-import { UserContext } from './Context/UserContext';
-
-    
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
-  const {setLogin, setCadastro, Login } = useContext( UserContext );
-  const [erro, setErro] = useState(false);
+
+  const {setLogado, setCadastro, Login } = useContext( UserContext );
+
   const [wifi, setWifi] = useState(false);
 
 
@@ -40,28 +35,36 @@ export default function LoginPage() {
 
 
   return (
-    <View style={css.container}>  
+    <View style={css.container}>
       {wifi ?
-        <>
-          <TextInput
-            style={css.input}
-            placeholder="E-mail"
-            onChangeText={(digitado) => setEmail(digitado)}
-            value={email}
-          />
-          <TextInput
-            style={css.input}
-            placeholder="Senha"
-            onChangeText={(digitado) => setSenha(digitado)}
-            value={senha}
-          />
-          <TouchableOpacity style={css.btn} onPress={realizaLogin}>
-            <Text style={css.btnText}>LOGIN</Text>
-          </TouchableOpacity>
-        </>
+      <>
+      <TextInput
+        style={css.input}
+        placeholder="E-mail"
+        onChangeText={(digitado) => setEmail(digitado)}
+        value={email}
+      />
+      <TextInput
+        style={css.input}
+        placeholder="Senha"
+        onChangeText={(digitado) => setSenha(digitado)}
+        value={senha}
+      />
+      <TouchableOpacity style={css.btn} onPress={realizaLogin}>
+        <Text style={css.btnText}>LOGIN</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => {
+          setCadastro(true);
+          setLogado(true);
+        }}>
+        <Text style={css.texto}
+          >Ainda não tem conta? Cadastra-se</Text>
+      </TouchableOpacity>
+      
+      </>
         : <Text>O Wi-Fi do seu celular não está funcionando no momento, não é? Quando puder, tente se reconectar para que você possa aproveitar o nosso aplicativo!</Text>
       }
-    </View>
+    </View>    
   );
 };
 

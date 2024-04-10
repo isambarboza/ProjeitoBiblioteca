@@ -26,7 +26,6 @@
     "expo-camera": "~14.1.1",
     "expo-battery": "~7.7.2",
     "expo-network": "~5.8.0"
-
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"
