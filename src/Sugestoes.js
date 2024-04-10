@@ -27,11 +27,6 @@ export default function Sugestoes() {
       <TouchableOpacity style={css.btn1} onPress={handleSalvarSugestao}>
         <Text style={css.btnText1}>ENVIAR</Text>
       </TouchableOpacity>
-      <Text style={css.btnText1}> ou </Text>
-      <TouchableOpacity style={css.btn1}>
-        <Text style={css.btnText1}>RECLAMAÇÕES</Text>
-      </TouchableOpacity>
-      
       <Text style={css.btnText}>Sugestões Salvas:</Text>
     
       <FlatList style={css.lista}
@@ -59,7 +54,7 @@ const css = StyleSheet.create({
     backgroundColor: "#E4E4E4",
     height: 60,
     borderWidth: 1,
-    borderRadius: 3,
+    borderRadius: 5,
     padding: 15,
     marginTop: 15,
     marginBottom: 15,
@@ -93,7 +88,8 @@ const css = StyleSheet.create({
     height: 80,
     marginLeft: 20,
     marginBottom: 15,
-    fontSize: 20
+    fontSize: 20,
+    borderRadius: 5
 
     
 

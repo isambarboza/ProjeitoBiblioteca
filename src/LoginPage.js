@@ -1,13 +1,8 @@
 import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native'
 import { useContext, useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { UserContext } from './Context/UserContext';
 import * as Network from 'expo-network';
-import { useContext, useState } from 'react';
-import { UserContext } from './Context/UserContext';
-
-    
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");

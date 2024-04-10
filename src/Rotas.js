@@ -4,20 +4,14 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useContext, useState } from 'react';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
+import { UserContext } from './Context/UserContext';
 import LoginPage from './LoginPage';
 import Livros from './Livros';
 import Agenda from './Agenda';
 import Home from './Home';
 import Sugestoes from './Sugestoes';
-
-import { UserContext } from './Context/UserContext';
-import Agenda from './Agenda';
-import Home from './Home';
-import Sugestoes from './Sugestoes';
 import Reclamacoes from './Reclamacoes';
 import Evento from './Evento';
-
-
 
 const Tab = createBottomTabNavigator();
 
@@ -78,6 +72,11 @@ export default function Rotas() {
                 <Tab.Screen name="Sugestoes" component={Sugestoes} options={{
                     tabBarIcon: ({ color, size }) => (
                         <MaterialCommunityIcons name="lightbulb-variant-outline" color={'white'} size={size} />
+                    ),
+                }} />
+                 <Tab.Screen name="Reclamações" component={Reclamacoes} options={{
+                    tabBarIcon: ({ color, size }) => (
+                        <MaterialCommunityIcons name="alert-outline" color={'white'} size={size} />
                     ),
                 }} />
                 <Tab.Screen name="Agenda" component={Agenda} options={{
