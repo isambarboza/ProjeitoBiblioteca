@@ -15,7 +15,7 @@ function UserProvider({children})
         if( email == "user.aplicativo@gmail.com" && senha == "123" )
         {
             await AsyncStorage.setItem( "usuario" , "User" );
-            setLogado( true );
+            setLogado( true ); 
         }
     }
 
@@ -33,7 +33,7 @@ function UserProvider({children})
     }, [] );
   
     return(
-        <UserContext.Provider value={ {usuario: usuario, logado: logado, Login, infoUsuario, login: login, setLogin, cadastro: cadastro, setCadastro, Login} }>
+        <UserContext.Provider value={ {usuario: usuario, logado: logado, Login, infoUsuario, login: login, setLogin, cadastro: cadastro, setCadastro, Login, setLogado} }>
             {children}
         </UserContext.Provider>
     )

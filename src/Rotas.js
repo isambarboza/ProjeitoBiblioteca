@@ -20,7 +20,7 @@ export default function Rotas() {
     const [email, setEmail] = useState("");
     const [senha, setSenha] = useState("");
 
-    const { logado, setLogin, cadastro, setCadastro } = useContext(UserContext);
+    const { logado, setLogado, cadastro, setCadastro } = useContext(UserContext);
 
     if (logado == false) {
         return (<LoginPage />)
@@ -41,7 +41,7 @@ export default function Rotas() {
                     onChangeText={(digitado) => setSenha(digitado)}
                     value={senha}
                 />
-                <TouchableOpacity style={css.btn} onPress={() => { setCadastro(false); setLogin(false); }}>
+                <TouchableOpacity style={css.btn} onPress={() => { setCadastro(false); setLogado(false); }}>
                     <Text style={css.btnText}>CADASTRAR</Text>
                 </TouchableOpacity>
             </View>
@@ -73,6 +73,7 @@ export default function Rotas() {
                     tabBarIcon: ({ color, size }) => (
                         <MaterialCommunityIcons name="lightbulb-variant-outline" color={'white'} size={size} />
                     ),
+                    
                 }} />
                  <Tab.Screen name="Reclamações" component={Reclamacoes} options={{
                     tabBarIcon: ({ color, size }) => (
@@ -84,6 +85,8 @@ export default function Rotas() {
                         <MaterialCommunityIcons name="calendar-month-outline" color={'white'} size={size} />
                     ),
                 }} />
+
+
 
             </Tab.Navigator>
         </NavigationContainer>
