@@ -2,13 +2,18 @@ import { NavigationContainer } from '@react-navigation/native';
 import { Button, View, Text, TextInput, StyleSheet, TouchableOpacity, } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useContext, useState } from 'react';
-import { UserContext } from './Context/UserContext';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import LoginPage from '../src/LoginPage';
-import Livros from '../src/Livros';
-import Agenda from '../src/Agenda';
-import Home from '../src/Home';
-import Sugestoes from '../src/Sugestoes';
+
+import { UserContext } from './Context/UserContext';
+import LoginPage from './LoginPage';
+import Livros from './Livros';
+import Agenda from './Agenda';
+import Home from './Home';
+import Sugestoes from './Sugestoes';
+import Reclamacoes from './Reclamacoes';
+import Evento from './Evento';
+
+
 
 const Tab = createBottomTabNavigator();
 
