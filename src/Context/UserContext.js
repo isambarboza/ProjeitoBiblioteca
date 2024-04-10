@@ -22,7 +22,7 @@ function UserProvider({children})
         const usuario = await AsyncStorage.getItem("usuario");
         if( usuario ){
             setUsuario( usuario );
-            setLogado( true );
+            setLogado( false );
         }
         
     }

@@ -1,5 +1,6 @@
-import React, { useContext, useState } from 'react';
-import { Image, View, Text, FlatList, TouchableOpacity, Modal, Button, StyleSheet } from 'react-native';
+import React, { useContext, useEffect, useState } from 'react';
+import { Image, View, Text, FlatList, TouchableOpacity, Modal, Button, StyleSheet,Alert} from 'react-native';
+import { useBatteryLevel } from 'expo-battery';
 import {UserContext} from './Context/UserContext';
 
 const Livros = () => {
@@ -21,35 +22,52 @@ const Livros = () => {
     { id: 15, title: "Um beijo inesquecível - ( Os Bridgertons ) - Livro 7", description: "O livro narra a história da caçula da família, Hyacinth Bridgerton, uma ruiva cheia de opinião e com uma personalidade singular. Ela está na sua quarta temporada na vida social e sem grandes perspectivas a respeito de encontrar um marido, cansada da mesmice dos bailes e de pessoas que não a desafiavam intelectualmente.", image: require('../assets/Um beijo inesquecível – Edição Luxo (Os Bridgertons – Livro 7).jpg') },
     { id: 16, title: "A caminho do altar - ( Os Bridgertons ) - Livro 8", description: "A caminho do altar, oitavo livro da série Os Bridgertons, é uma história sobre encontros, desencontros e esperança no amor. De forma leve e revigorante, Julia Quinn nos mostra que tudo o que imaginamos sobre paixão à primeira vista é verdade – só precisamos saber onde buscá-la. –O que o senhor vai fazer agora?", image: require('../assets/A caminho do altar – Edição Luxo (Os Bridgertons – Livro 8).jpg/') },
     { id: 17, title: "E viveram felizes para sempre - ( Os Bridgertons ) - Livro 9", description: "lguns finais são apenas o começo... Era uma vez uma família criada por uma autora de romances históricos...A última página de um livro realmente tem que ser o fim da história? Julia Quinn acha que não e, em E viveram felizes para sempre, oferece oito epílogos extras, todos sensuais, engraçados e reconfortantes, e responde aos anseios dos leitores trazendo, ainda, um drama inesperado, um final feliz para um personagem muito merecedor e um delicioso conto no qual ficamos conhecendo melhor ninguém menos que a sábia e espirituosa matriarca Violet Bridgerton.", image: require('../assets/E Viveram Felizes para Sempre – Edição Luxo (Os Bridgertons – Livro 9).jpg') },
-    { id: 18, title: "A espada de vidro", description: "O sangue de Mare Barrow é vermelho, da mesma cor da população comum, mas sua habilidade de controlar a eletricidade a torna tão poderosa quanto os membros da elite de sangue prateado. Depois que essa revelação foi feita em rede nacional, Mare se transformou numa arma perigosa que a corte real quer esconder e controlar.", image: require('../assets/A espada de vidro.jpg') },
-    { id: 19, title: "O diário de Hass - Volume 1", description: "Com apenas sete anos, Hass é assombrado por terríveis experiências sobrenaturais e pesadelos vívidos que aterrorizam suas noites.", image: require('../assets/O diário de Hass - Volume 1.jpg') },
-    { id: 20, title: "O diário de Hass - Volume 2", description: "Um local onde crianças são obrigadas a enfrentar um complexo ritual, que decidirá para sempre o rumo de suas vidas. Hass se depara com a face mais sombria desse mundo novo e a cada dia que permanece vivo, precisa lidar com escolhas difíceis que colocam à prova o seu caráter.", image: require('../assets/O diário de Hass - Volume 2.jpg') },
-    { id: 21, title: "Mitologia nórdica", description: "Fascinado por essa mitologia desde a infância, o autor compôs uma coletânea de quinze contos que começa com a narração da origem do mundo e mostra a relação conturbada entre deuses, gigantes e anões, indo até o Ragnarök, o assustador cenário do apocalipse que vai levar ao fim no mundo.", image: require('../assets/Mitologia nórdica.jpg') },
-    { id: 22, title: "Nínguem vai te ouvir gritar", description: "A Academia Masters é um dos internatos mais prestigiados dos Estados Unidos. Escondido em uma ilha na costa da Flórida e cercado por muros impenetráveis, o internato recebe novas turmas anualmente. Mas, além dos alunos, abriga segredos sinistros e ameaças letais.", image: require('../assets/Ninguém vai te ouvir gritar.jpg') },
-    { id: 23, title: "O homem de giz", description: "Em 2016, Eddie e seus amigos, já com certa idade, recebem uma carta com um desenho de um homem de giz enforcado. Ocorre, então, que um de seus amigos repentinamente aparece morto. Eddie não tem dúvidas de que precisa descobrir quem cometeu o crime e como isso se relaciona com o passado de 30 anos atrás.", image: require('../assets/O homem de giz.jpg') },
-    { id: 24, title: "Se não fosse você", description: "fala sobre família, primeiro amor, luto e traição em uma história emocionante que tocará os corações tanto de mães quanto de filhas. Morgan e Clara Grant são mãe e filha, e aparentemente não têm nada em comum.", image: require('../assets/Se não fosse você.webp') },
+    { id: 18, title: "O diário de Hass - Volume 1", description: "Com apenas sete anos, Hass é assombrado por terríveis experiências sobrenaturais e pesadelos vívidos que aterrorizam suas noites.", image: require('../assets/O diário de Hass - Volume 1.jpg') },
+    { id: 19, title: "O diário de Hass - Volume 2", description: "Um local onde crianças são obrigadas a enfrentar um complexo ritual, que decidirá para sempre o rumo de suas vidas. Hass se depara com a face mais sombria desse mundo novo e a cada dia que permanece vivo, precisa lidar com escolhas difíceis que colocam à prova o seu caráter.", image: require('../assets/O diário de Hass - Volume 2.jpg') },
+    { id: 20, title: "Mitologia nórdica", description: "Fascinado por essa mitologia desde a infância, o autor compôs uma coletânea de quinze contos que começa com a narração da origem do mundo e mostra a relação conturbada entre deuses, gigantes e anões, indo até o Ragnarök, o assustador cenário do apocalipse que vai levar ao fim no mundo.", image: require('../assets/Mitologia nórdica.jpg') },
+    { id: 21, title: "Nínguem vai te ouvir gritar", description: "A Academia Masters é um dos internatos mais prestigiados dos Estados Unidos. Escondido em uma ilha na costa da Flórida e cercado por muros impenetráveis, o internato recebe novas turmas anualmente. Mas, além dos alunos, abriga segredos sinistros e ameaças letais.", image: require('../assets/Ninguém vai te ouvir gritar.jpg') },
+    { id: 22, title: "O homem de giz", description: "Em 2016, Eddie e seus amigos, já com certa idade, recebem uma carta com um desenho de um homem de giz enforcado. Ocorre, então, que um de seus amigos repentinamente aparece morto. Eddie não tem dúvidas de que precisa descobrir quem cometeu o crime e como isso se relaciona com o passado de 30 anos atrás.", image: require('../assets/O homem de giz.jpg') },
+    { id: 23, title: "Se não fosse você", description: "Fala sobre família, primeiro amor, luto e traição em uma história emocionante que tocará os corações tanto de mães quanto de filhas. Morgan e Clara Grant são mãe e filha, e aparentemente não têm nada em comum.", image: require('../assets/Se não fosse você.webp') },
+    { id: 24, title: "A espada de vidro", description: "O sangue de Mare Barrow é vermelho, da mesma cor da população comum, mas sua habilidade de controlar a eletricidade a torna tão poderosa quanto os membros da elite de sangue prateado. Depois que essa revelação foi feita em rede nacional, Mare se transformou numa arma perigosa que a corte real quer esconder e controlar.", image: require('../assets/A espada de vidro.jpg') },
     { id: 25, title: "Tempestade de guerra", description: "Mare Barrow aprendeu rápido que, para vencer, é preciso pagar um preço muito alto. Depois da traição de Cal, ela se esforça para proteger seu coração e continuar a lutar junto aos rebeldes pela liberdade de todos os vermelhos e sanguenovos de Norta.", image: require('../assets/Tempestade de guerra.jpg') },
     { id: 26, title: "Trono destruído", description: "Dois personagens inéditos se encontram em O mundo que ficou para trás: o jovem capitão Ashe, que faz contrabando nas Terras Disputadas, e Lyrisa, uma princesa foragida de Piedmont que vai fazer de tudo para escapar de um casamento arranjado.", image: require('../assets/Trono destruído.jpg') },
-    { id: 27, title: "Uma proposta irrecusável", description: "Em visita a um tio distante, ela descobre que seus antepassados um dia possuíram um poço de petróleo nos Estados Unidos e que talvez ainda valha algum dinheiro. O que seria a solução para os problemas financeiros de todos. Sem nada a perder, Sophie deixa a Inglaterra rumo a Nova York disposta a resolver esse mistério.", image: require('../assets/Uma proposta irrecusável.jpg') }
-    /*{ id: 0, title: " ", description: " ", image: require('../') },*/
+    { id: 27, title: " A prisão do rei", description: "Mare Barrow foi capturada e passa os dias presa no palácio, impotente sem seu poder, atormentada por seus erros. Ela está à mercê do garoto por quem um dia se apaixonou, um jovem dissimulado que a enganou e traiu. ", image: require('../assets/A prisão do rei.jpg/') },
+    { id: 28, title: "A rainha vermelha", description: "A Rainha Vermelha é uma série de fantasia young adult escrita pela norte-americana Victoria Aveyard e se passa no ano de 320 da Nova Era em uma sociedade dividida pelos sangues vermelho (plebeus) e prateados (elite), conta a história de Mare Barrow, uma jovem de 17 anos que é vermelha e que descobre ter poderes de ... ", image: require('../assets/A rainha vermelha.jpg') },
+    { id: 29, title: "Uma proposta irrecusável", description: "Em visita a um tio distante, ela descobre que seus antepassados um dia possuíram um poço de petróleo nos Estados Unidos e que talvez ainda valha algum dinheiro. O que seria a solução para os problemas financeiros de todos. Sem nada a perder, Sophie deixa a Inglaterra rumo a Nova York disposta a resolver esse mistério.", image: require('../assets/Uma proposta irrecusável.jpg') },
+    /*{ id: 0, title: " ", description: " ", image: require('../assets/') },*/
   ]);
+
+
   const [selectedBook, setSelectedBook] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
-
   const {usuario} = useContext( UserContext );
+  const batteryLevel = useBatteryLevel();
+  const [bateria, setBateria] = useState();
 
+
+useEffect(()=> {
+  setBateria((batteryLevel*100).toFixed(0))
+  loadbateria();
+},[batteryLevel])
+
+    function loadbateria(){
+        if(bateria > 20){
+          Alert.alert(
+            'Bateria Baixa',
+            "Sua bateria está abaixo de 20%. Por favor, conecte seu dispositivo para carregar"
+            )
+        }
+    }
   const handleBookPress = (book) => {
     setSelectedBook(book);
     setModalVisible(true);
   };
-
   const renderItem = ({ item }) => (
     <TouchableOpacity onPress={() => handleBookPress(item)} style={styles.bookItem}>
       <Image source={item.image} style={{ width: 50, height: 50, marginRight: 10 }} />
       <Text style={styles.bookTitle}>{item.title}</Text>
     </TouchableOpacity>
   );
-
   return (
     <View style={styles.container}>
       <Text>Bem vindo: {usuario}</Text>
@@ -60,7 +78,6 @@ const Livros = () => {
         renderItem={renderItem}
         keyExtractor={item => item.id.toString()}
       />
-
       <Modal
         animationType="slide"
         transparent={true}
@@ -76,8 +93,6 @@ const Livros = () => {
               <TouchableOpacity style={styles.btn} onPress={() => setModalVisible(false)}>
                 <Text style={styles.btnText}>FECHAR</Text>
               </TouchableOpacity>
-
-            
           </View>
         </View>
       </Modal>

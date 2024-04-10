@@ -7,6 +7,7 @@ export default function Home() {
   return (
 //const{usuario} = useContext{ UseuContext }
 //text>bem vindo {usuario}>
+
     <View>
       <Text>Home</Text>
     </View>
