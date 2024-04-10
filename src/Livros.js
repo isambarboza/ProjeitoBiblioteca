@@ -54,7 +54,6 @@ const Livros = () => {
     <View style={styles.container}>
       <Text>Bem vindo: {usuario}</Text>
       <Text style={styles.heading}>Biblioteca de Livros</Text>
-      <Text>{usuario}</Text>
       <FlatList
         data={books}
         renderItem={renderItem}

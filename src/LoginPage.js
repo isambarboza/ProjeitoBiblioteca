@@ -1,25 +1,23 @@
-import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native'
+import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
 import { useContext, useState } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { UserContext } from './Context/UserContext';
 
+    
 
+export default function LoginPage() {
+  const [email, setEmail] = useState("");
+  const [senha, setSenha] = useState("");
 
-export default function Login() {
+  const {setLogin, setCadastro, Login } = useContext( UserContext );
 
-  const[ email, setEmail ] = useState("");
-  const[ senha, setSenha ] = useState("");
-  const[ erro, setErro ] = useState( false );
-
-  const {Login} = useContext( UserContext );
-
-  function realizaLogin()
-  {
-    Login( email, senha );
+  function realizaLogin() {
+    Login(email, senha);
   }
+
 
   return (
     <View style={css.container}>
+      
       <TextInput
         style={css.input}
         placeholder="E-mail"
@@ -32,13 +30,15 @@ export default function Login() {
         onChangeText={(digitado) => setSenha(digitado)}
         value={senha}
       />
-      
-        <TouchableOpacity style={css.btn} onPress={realizaLogin}>
-            <Text style={css.btnText}>LOGIN</Text>
-        </TouchableOpacity>
-     
-        
-    </View>
+      <TouchableOpacity style={css.btn} onPress={realizaLogin}>
+        <Text style={css.btnText}>LOGIN</Text>
+      </TouchableOpacity>
+      <Text style={css.texto}
+        onPress={() => {
+        setCadastro(true);
+        setLogin(true);
+      }}>Ainda não tem conta? Cadastra-se</Text>
+    </View>    
   );
 };
 
@@ -48,6 +48,9 @@ const css = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         paddingHorizontal: 20,
+    },
+    texto:{
+      color: "blue",
     },
     titulo: {
         fontSize: 24,
@@ -67,6 +70,20 @@ const css = StyleSheet.create({
         marginTop: 20,
         color: 'blue',
     },
+    iconeFoto: {
+        width: "55%",
+        height: "30%",
+        borderRadius: 5,
+        backgroundColor: "#E4E4E4",
+        marginTop: 10,
+        borderRadius: 120,
+    },
+    iconeFotoText: {
+      lineHeight: 200,
+      color: "black",
+      textAlign: "center",
+      fontSize: 10,
+    },
     btn: {
         width: "90%",
         height: 45,
@@ -79,5 +96,8 @@ const css = StyleSheet.create({
         color: "black",
         textAlign: "center",
         fontSize: 20,
-    }
+    },
+    btnTextCadastro: {
+      color: "blue",
+    },
 });
