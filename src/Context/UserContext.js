@@ -12,12 +12,7 @@ function UserProvider({children})
 
     async function Login( email, senha )
     {
-<<<<<<< HEAD
-        if( email == "renanzaneli01@gmail.com" && senha == "123" )
-=======
-        console.log( "Teste" );
         if( email == "gabi.martins@gmail.com" && senha == "123" )
->>>>>>> 50938895e4ac33e72b65da60c0d74399e11307f8
         {
             await AsyncStorage.setItem( "usuario" , "Gabriela" );
             setLogado( true );
